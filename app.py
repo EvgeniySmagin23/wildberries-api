@@ -23,7 +23,7 @@ def update_stock():
         if not vendorCode or quantity is None:
             return jsonify({"error": "Missing vendorCode or quantity"}), 400
 
-        url = "https://suppliers-api.wildberries.ru/api/v3/stocks/by-partner-sku"
+        url = "https://api.wb.ru/content/v3/stocks/by-partner-sku"
         headers = {
             "Authorization": WB_API_TOKEN,
             "Content-Type": "application/json"
