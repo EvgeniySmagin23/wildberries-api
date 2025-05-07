@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify
 import requests
 
@@ -19,7 +18,7 @@ def update_stock():
         "quantity": quantity
     }]
     headers = {
-        "Authorization": "ВАШ_ТОКЕН",
+        "Authorization": "eyJhbGciOiJFUzI1NiIsImtpZCI6IjIwMjUwNDE3djEiLCJ0eXAiOiJKV1QifQ.eyJlbnQiOjEsImV4cCI6MTc2MjMyMjcxOSwiaWQiOiIwMTk2YTZjNi0wZDU5LTdlMTEtOWQ5MS0zOTIzOWRlM2QzZDYiLCJpaWQiOjEwNzMzOTUwNywib2lkIjoxMjE2OTE2LCJzIjo3OTM0LCJzaWQiOiI2ZDJlNmJhYS0zM2IxLTRmMTctODQyMC0yYTJkODNlOTliMGQiLCJ0IjpmYWxzZSwidWlkIjoxMDczMzk1MDd9.WcBlF6-OSo2ezXwfpo_sSLeGHiO-tcKXVNExoyoAO1A-cGGJlu1AY1efoeaKRd2DsD0C78QdoZBKBtr2BPjKrw",
         "Content-Type": "application/json"
     }
     try:
