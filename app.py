@@ -29,7 +29,7 @@ def update_stock():
         if not nmId or quantity is None:
             return jsonify({"error": "Missing nmId or quantity"}), 400
 
-        url = "https://api.wb.ru/content/v3/stocks"
+        url = "https://marketplace-api.wildberries.ru/api/v3/stocks/{WAREHOUSE_ID}"
         headers = {
             "Authorization": WB_API_TOKEN,
             "Content-Type": "application/json"
