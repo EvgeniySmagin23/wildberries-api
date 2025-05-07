@@ -7,7 +7,6 @@ app = Flask(__name__)
 WB_API_TOKEN = os.getenv("WB_API_TOKEN")
 WAREHOUSE_ID = os.getenv("WB_WAREHOUSE_ID")
 
-# Проверка переменных окружения
 if not WB_API_TOKEN or not WAREHOUSE_ID:
     raise ValueError("Не найдены переменные окружения WB_API_TOKEN и/или WB_WAREHOUSE_ID")
 
@@ -30,7 +29,7 @@ def update_stock():
         if not nmId or quantity is None:
             return jsonify({"error": "Missing nmId or quantity"}), 400
 
-        url = f"https://suppliers-api.wildberries.ru/api/v3/stocks/{WAREHOUSE_ID}"
+        url = "https://api.wb.ru/content/v3/stocks"
         headers = {
             "Authorization": WB_API_TOKEN,
             "Content-Type": "application/json"
@@ -39,7 +38,8 @@ def update_stock():
             "stocks": [
                 {
                     "sku": int(nmId),
-                    "amount": int(quantity)
+                    "amount": int(quantity),
+                    "warehouseId": WAREHOUSE_ID
                 }
             ]
         }
@@ -53,10 +53,6 @@ def update_stock():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
