@@ -7,17 +7,23 @@ app = Flask(__name__)
 WB_API_TOKEN = os.getenv("WB_API_TOKEN")
 WAREHOUSE_ID = os.getenv("WB_WAREHOUSE_ID")
 
+# Проверка переменных окружения
 if not WB_API_TOKEN or not WAREHOUSE_ID:
     raise ValueError("Не найдены переменные окружения WB_API_TOKEN и/или WB_WAREHOUSE_ID")
 
+try:
+    WAREHOUSE_ID = int(WAREHOUSE_ID)
+except ValueError:
+    raise ValueError("WAREHOUSE_ID должен быть числом")
+
 @app.route('/')
 def home():
-    return "Wildberries Proxy API is running"
+    return "✅ Wildberries Proxy API is running"
 
 @app.route('/update_stock', methods=['POST'])
 def update_stock():
     try:
-        data = request.get_json()
+        data = request.get_json(force=True)
         nmId = data.get('nmId')
         quantity = data.get('quantity')
 
@@ -47,6 +53,10 @@ def update_stock():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
