@@ -5,15 +5,9 @@ import requests
 app = Flask(__name__)
 
 WB_API_TOKEN = os.getenv("WB_API_TOKEN")
-WAREHOUSE_ID = os.getenv("WB_WAREHOUSE_ID")
 
-if not WB_API_TOKEN or not WAREHOUSE_ID:
-    raise ValueError("Не найдены переменные окружения WB_API_TOKEN и/или WB_WAREHOUSE_ID")
-
-try:
-    WAREHOUSE_ID = int(WAREHOUSE_ID)
-except ValueError:
-    raise ValueError("WAREHOUSE_ID должен быть числом")
+if not WB_API_TOKEN:
+    raise ValueError("Не найдена переменная окружения WB_API_TOKEN")
 
 @app.route('/')
 def home():
@@ -23,23 +17,22 @@ def home():
 def update_stock():
     try:
         data = request.get_json(force=True)
-        vendor_code = data.get('vendorCode')
+        vendorCode = data.get('vendorCode')
         quantity = data.get('quantity')
 
-        if not vendor_code or quantity is None:
+        if not vendorCode or quantity is None:
             return jsonify({"error": "Missing vendorCode or quantity"}), 400
 
-        url = f"https://suppliers-api.wildberries.ru/api/v3/stocks"
+        url = "https://suppliers-api.wildberries.ru/api/v3/stocks/by-partner-sku"
         headers = {
             "Authorization": WB_API_TOKEN,
             "Content-Type": "application/json"
         }
         payload = {
-            "stocks": [
+            "skus": [
                 {
-                    "vendorCode": str(vendor_code),
-                    "warehouseId": WAREHOUSE_ID,
-                    "amount": int(quantity)
+                    "vendorCode": str(vendorCode),
+                    "quantity": int(quantity)
                 }
             ]
         }
