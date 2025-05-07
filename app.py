@@ -23,13 +23,13 @@ def home():
 def update_stock():
     try:
         data = request.get_json(force=True)
-        nmId = data.get('nmId')
+        vendor_code = data.get('vendorCode')
         quantity = data.get('quantity')
 
-        if not nmId or quantity is None:
-            return jsonify({"error": "Missing nmId or quantity"}), 400
+        if not vendor_code or quantity is None:
+            return jsonify({"error": "Missing vendorCode or quantity"}), 400
 
-        url = "https://marketplace-api.wildberries.ru/api/v3/stocks/{WAREHOUSE_ID}"
+        url = f"https://suppliers-api.wildberries.ru/api/v3/stocks"
         headers = {
             "Authorization": WB_API_TOKEN,
             "Content-Type": "application/json"
@@ -37,9 +37,9 @@ def update_stock():
         payload = {
             "stocks": [
                 {
-                    "sku": int(nmId),
-                    "amount": int(quantity),
-                    "warehouseId": WAREHOUSE_ID
+                    "vendorCode": str(vendor_code),
+                    "warehouseId": WAREHOUSE_ID,
+                    "amount": int(quantity)
                 }
             ]
         }
